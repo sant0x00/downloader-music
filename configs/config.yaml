@@ -1,0 +1,14 @@
+download:
+  concurrent_workers: 8
+  retry_attempts: 3
+  timeout_seconds: 30
+  output_directory: "~/Downloads/ClipesJW"
+
+scraping:
+  base_url: "https://www.jw.org/pt/biblioteca/musica-canticos/clipes-musicais/"
+  delay_between_requests: 1s
+  user_agent: "ClipesJW-Downloader/1.0"
+
+logging:
+  level: "debug"
+  output_file: "downloader.log"
