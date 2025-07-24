@@ -13,7 +13,6 @@ import (
 	"github.com/sant0x00/downloader-music/internal/domain"
 )
 
-// Estruturas para a API JSON do JW.org
 type JWAPIResponse struct {
 	PubName string                     `json:"pubName"`
 	Files   map[string]JWLanguageFiles `json:"files"`
@@ -35,17 +34,15 @@ type JWFile struct {
 	Checksum         string `json:"checksum"`
 }
 
-// JWScraper implementa o WebScraper para o site jw.org
 type JWScraper struct {
 	client        *http.Client
 	userAgent     string
 	delay         time.Duration
 	logger        domain.Logger
-	downloadURL   string            // URL da página de downloads
-	downloadCache map[string]string // Cache de títulos -> URLs de download
+	downloadURL   string
+	downloadCache map[string]string
 }
 
-// NewJWScraper cria uma nova instância do JWScraper
 func NewJWScraper(userAgent string, delay time.Duration, logger domain.Logger) *JWScraper {
 	return &JWScraper{
 		client: &http.Client{
@@ -59,7 +56,6 @@ func NewJWScraper(userAgent string, delay time.Duration, logger domain.Logger) *
 	}
 }
 
-// ScrapClipesList extrai a lista de clipes musicais da página principal
 func (s *JWScraper) ScrapClipesList(url string) ([]domain.ClipeMusical, error) {
 	s.logger.Info("Iniciando scraping da lista de clipes", "url", url)
 
@@ -89,7 +85,6 @@ func (s *JWScraper) ScrapClipesList(url string) ([]domain.ClipeMusical, error) {
 
 	var clipes []domain.ClipeMusical
 
-	// Buscar links para clipes musicais
 	doc.Find("h2 a[href*='/biblioteca/musica-canticos/clipes-musicais/']").Each(func(i int, sel *goquery.Selection) {
 		href, exists := sel.Attr("href")
 		if !exists {
@@ -101,16 +96,13 @@ func (s *JWScraper) ScrapClipesList(url string) ([]domain.ClipeMusical, error) {
 			return
 		}
 
-		// Construir URL completa
 		fullURL := href
 		if strings.HasPrefix(href, "/") {
 			fullURL = "https://www.jw.org" + href
 		}
 
-		// Extrair ID do clipe da URL
 		id := s.extractClipeID(href)
 
-		// Extrair ano do título (se presente)
 		ano := s.extractYearFromTitle(titulo)
 
 		clipe := domain.ClipeMusical{
@@ -127,12 +119,9 @@ func (s *JWScraper) ScrapClipesList(url string) ([]domain.ClipeMusical, error) {
 	return clipes, nil
 }
 
-// ScrapClipeDetails extrai os detalhes de um clipe específico
 func (s *JWScraper) ScrapClipeDetails(clipe domain.ClipeMusical) (domain.ClipeMusical, error) {
 	s.logger.Debug("Obtendo detalhes do clipe", "titulo", clipe.Titulo, "url", clipe.URL)
 
-	// Para otimizar, vamos buscar o link de download diretamente da página de downloads
-	// em vez de processar cada página individual
 	downloadURL, err := s.findDownloadURLForClipe(clipe.Titulo)
 	if err != nil {
 		s.logger.Error("Erro ao buscar URL de download", err, "titulo", clipe.Titulo)
@@ -144,13 +133,10 @@ func (s *JWScraper) ScrapClipeDetails(clipe domain.ClipeMusical) (domain.ClipeMu
 		s.logger.Debug("URL de download encontrada", "titulo", clipe.Titulo, "url", downloadURL)
 	}
 
-	// Tentar extrair ano do título se não foi detectado antes
 	if clipe.Ano == 0 {
 		clipe.Ano = s.extractYearFromTitle(clipe.Titulo)
 	}
 
-	// Obter descrição da página individual se necessário
-	// (mantendo o delay entre requisições)
 	time.Sleep(s.delay)
 
 	clipe.Descricao = fmt.Sprintf("Clipe musical: %s", clipe.Titulo)
@@ -159,7 +145,6 @@ func (s *JWScraper) ScrapClipeDetails(clipe domain.ClipeMusical) (domain.ClipeMu
 	return clipe, nil
 }
 
-// extractClipeID extrai um ID do clipe a partir da URL
 func (s *JWScraper) extractClipeID(url string) string {
 	parts := strings.Split(url, "/")
 	if len(parts) > 0 {
@@ -168,9 +153,7 @@ func (s *JWScraper) extractClipeID(url string) string {
 	return ""
 }
 
-// extractYearFromTitle tenta extrair o ano do título do clipe
 func (s *JWScraper) extractYearFromTitle(titulo string) int {
-	// Buscar por padrões como "2025", "2024", etc.
 	re := regexp.MustCompile(`\b(202[0-9])\b`)
 	matches := re.FindStringSubmatch(titulo)
 	if len(matches) > 1 {
@@ -179,7 +162,6 @@ func (s *JWScraper) extractYearFromTitle(titulo string) int {
 		}
 	}
 
-	// Buscar por padrões como "cântico do congresso de 2024"
 	re2 := regexp.MustCompile(`congresso de (\d{4})`)
 	matches2 := re2.FindStringSubmatch(titulo)
 	if len(matches2) > 1 {
@@ -188,7 +170,6 @@ func (s *JWScraper) extractYearFromTitle(titulo string) int {
 		}
 	}
 
-	// Buscar por padrões como "de 2023"
 	re3 := regexp.MustCompile(`de (\d{4})`)
 	matches3 := re3.FindStringSubmatch(titulo)
 	if len(matches3) > 1 {
@@ -198,55 +179,6 @@ func (s *JWScraper) extractYearFromTitle(titulo string) int {
 	}
 
 	return 0
-}
-
-func (s *JWScraper) findDownloadURL(doc *goquery.Document) string {
-	var downloadURL string
-
-	selectors := []string{
-		"a[href*='.mp4']",
-		"a[href*='download'][href*='mp4']",
-		"a[href*='download'][href*='video']",
-		"a[href*='fileformat=MP4']",
-		"video source",
-	}
-
-	for _, selector := range selectors {
-		doc.Find(selector).Each(func(i int, sel *goquery.Selection) {
-			if downloadURL != "" {
-				return // Already found a download link
-			}
-
-			href, exists := sel.Attr("href")
-			if !exists {
-				src, exists := sel.Attr("src")
-				if exists {
-					href = src
-				} else {
-					return
-				}
-			}
-
-			if strings.Contains(href, ".mp4") || strings.Contains(href, "video") {
-				downloadURL = href
-			}
-		})
-
-		if downloadURL != "" {
-			break
-		}
-	}
-
-	if downloadURL == "" {
-		doc.Find("a[href*='download']").Each(func(i int, sel *goquery.Selection) {
-			href, exists := sel.Attr("href")
-			if exists && strings.Contains(href, "video") {
-				downloadURL = href
-			}
-		})
-	}
-
-	return downloadURL
 }
 
 func (s *JWScraper) findDownloadURLForClipe(titulo string) (string, error) {

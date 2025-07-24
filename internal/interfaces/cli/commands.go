@@ -15,6 +15,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func showBanner() {
+	banner := `
+ ██████╗ ██╗     ██╗██████╗ ███████╗███████╗        ██╗██╗    ██╗
+██╔════╝ ██║     ██║██╔══██╗██╔════╝██╔════╝        ██║██║    ██║
+██║      ██║     ██║██████╔╝█████╗  ███████╗        ██║██║ █╗ ██║
+██║      ██║     ██║██╔═══╝ ██╔══╝  ╚════██║   ██   ██║██║███╗██║
+╚██████╗ ███████╗██║██║     ███████╗███████║   ╚█████╔╝╚███╔███╔╝
+ ╚═════╝ ╚══════╝╚═╝╚═╝     ╚══════╝╚══════╝    ╚════╝  ╚══╝╚══╝ 
+
+🎵 Downloader de Clipes Musicais JW.org 🎵
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`
+	fmt.Print(banner)
+}
+
+func showSmallBanner() {
+	fmt.Println("🎵 Clipes JW.org Downloader 🎵")
+	fmt.Println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+}
+
 type CLI struct {
 	config          *config.Config
 	logger          domain.Logger
@@ -56,8 +76,19 @@ func (c *CLI) Execute() error {
 	rootCmd := &cobra.Command{
 		Use:   "downloader-music",
 		Short: "Downloader de clipes musicais do jw.org",
-		Long: `Uma aplicação para baixar automaticamente todos os clipes musicais 
-em português do site oficial das Testemunhas de Jeová (jw.org).`,
+		Long: `🎵 Clipes JW.org Downloader 🎵
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Uma aplicação para baixar automaticamente todos os clipes musicais 
+em português do site oficial das Testemunhas de Jeová (jw.org).
+
+A aplicação organiza os arquivos em pastas por ano e mantém os 
+nomes de arquivos limpos e organizados.`,
+		Run: func(cmd *cobra.Command, args []string) {
+			showBanner()
+			fmt.Println("Use 'downloader-music --help' para ver os comandos disponíveis.")
+			fmt.Println()
+		},
 	}
 
 	downloadCmd := &cobra.Command{
@@ -122,6 +153,7 @@ em português do site oficial das Testemunhas de Jeová (jw.org).`,
 }
 
 func (c *CLI) downloadAll() error {
+	showSmallBanner()
 	fmt.Println("🎵 Iniciando download de todos os clipes musicais...")
 	fmt.Printf("📁 Diretório de saída: %s\n", c.config.Download.OutputDirectory)
 	fmt.Printf("👥 Workers concorrentes: %d\n", c.config.Download.ConcurrentWorkers)
@@ -138,6 +170,7 @@ func (c *CLI) downloadAll() error {
 }
 
 func (c *CLI) downloadSpecific(titulo string) error {
+	showSmallBanner()
 	fmt.Printf("🎵 Procurando clipe: %s\n", titulo)
 	fmt.Printf("📁 Diretório de saída: %s\n", c.config.Download.OutputDirectory)
 	fmt.Println()
@@ -153,6 +186,7 @@ func (c *CLI) downloadSpecific(titulo string) error {
 }
 
 func (c *CLI) checkNewClipes() error {
+	showSmallBanner()
 	fmt.Println("🔍 Verificando novos clipes disponíveis...")
 	fmt.Println()
 

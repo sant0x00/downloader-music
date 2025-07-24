@@ -77,7 +77,7 @@ func LoadConfig(configPath string) (*Config, error) {
 }
 
 func SaveConfig(config *Config, configPath string) error {
-	// Criar diretório se não existir
+	// Create the directory if it doesn't exist
 	dir := filepath.Dir(configPath)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err

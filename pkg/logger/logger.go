@@ -71,7 +71,7 @@ func (l *SimpleLogger) shouldLog(level string) bool {
 
 	currentLevel, exists := levels[l.level]
 	if !exists {
-		currentLevel = 1 // info como padrão
+		currentLevel = 1 // default to "info" level
 	}
 
 	logLevel, exists := levels[level]

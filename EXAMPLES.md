@@ -1,6 +1,6 @@
-# 🎵 Exemplos de Uso - Downloader de Clipes Musicais JW.ORG
+# Exemplos de Uso - Downloader de Clipes Musicais JW.ORG
 
-## 🚀 Início Rápido
+## Início Rápido
 
 ```bash
 # 1. Compilar a aplicação
@@ -13,15 +13,15 @@ make build
 ./build/downloader-music download all
 ```
 
-## 📋 Comandos Principais
+## Comandos Principais
 
-### 🔍 Verificar Novos Clipes
+### Verificar Novos Clipes
 ```bash
 # Ver todos os clipes disponíveis
 ./build/downloader-music check
 ```
 
-### 🎵 Download de Todos os Clipes
+### Download de Todos os Clipes
 ```bash
 # Baixar todos os clipes disponíveis
 ./build/downloader-music download all
@@ -30,7 +30,7 @@ make build
 ./build/downloader-music download all --verbose
 ```
 
-### 🎯 Download de Clipe Específico
+### Download de Clipe Específico
 ```bash
 # Baixar um clipe específico por título
 ./build/downloader-music download title "Vou até o fim"
@@ -40,7 +40,7 @@ make build
 ./build/downloader-music download title "As boas novas sobre Jesus (cântico do congresso de 2024)"
 ```
 
-### ⚙️ Configurações
+## Configurações
 ```bash
 # Configurar diretório de saída
 ./build/downloader-music config output-dir "~/Meus_Videos/ClipesJW"
@@ -51,7 +51,7 @@ make build
 ./build/downloader-music config --help
 ```
 
-## 🛠️ Comandos Make
+## Comandos Make
 
 ```bash
 # Ver todos os comandos disponíveis
@@ -73,7 +73,7 @@ make clean
 make dev
 ```
 
-## 📁 Estrutura de Saída
+## Estrutura de Saída
 
 Após o download, os clipes serão organizados em:
 
@@ -97,7 +97,7 @@ Após o download, os clipes serão organizados em:
     └── ...
 ```
 
-## 🔧 Personalização
+## Personalização
 
 ### Modificar Configurações
 
@@ -133,7 +133,7 @@ logging:
   level: "debug"              # Logs mais detalhados
 ```
 
-## 📊 Monitoramento
+## Monitoramento
 
 ### Ver Logs em Tempo Real
 ```bash
@@ -151,7 +151,7 @@ grep ERROR downloader.log
 ./build/downloader-music download all
 ```
 
-## 🧪 Testes
+## Testes
 
 ### Testar um Clipe Específico
 ```bash
@@ -171,7 +171,7 @@ grep ERROR downloader.log
 ./build/downloader-music config output-dir "~/Downloads/ClipesJW"
 ```
 
-## 🔄 Fluxo Recomendado
+## Fluxo Recomendado
 
 1. **Primeira execução**:
    ```bash
@@ -194,7 +194,7 @@ grep ERROR downloader.log
    ./build/downloader-music check
    ```
 
-## 🆘 Solução de Problemas
+## Solução de Problemas
 
 ### Erro de Conectividade
 ```bash
@@ -219,4 +219,4 @@ tail -20 downloader.log
 
 ---
 
-**💡 Dica**: Comece sempre com `./build/downloader-music check` para ver quantos clipes estão disponíveis!
+*** Dica**: Comece sempre com `./build/downloader-music check` para ver quantos clipes estão disponíveis!

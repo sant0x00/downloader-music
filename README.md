@@ -2,19 +2,19 @@
 
 Uma aplicação em Go para automatizar o download de clipes musicais do site oficial das Testemunhas de Jeová (jw.org), especificamente da seção de clipes musicais em português brasileiro.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-- 🎵 **Download automático** de todos os clipes musicais disponíveis
-- 📁 **Organização inteligente** por ano de publicação
-- 🚀 **Downloads concorrentes** para maior velocidade
-- 🔄 **Retry automático** para falhas de download
-- 📊 **Barra de progresso** em tempo real
-- 🎯 **Download específico** por título
-- 🔍 **Verificação** de novos clipes disponíveis
-- ⚙️ **Configuração flexível** via arquivo YAML
-- 📝 **Log detalhado** de todas as operações
+- **Download automático** de todos os clipes musicais disponíveis
+- **Organização inteligente** por ano de publicação
+- **Downloads concorrentes** para maior velocidade
+- **Retry automático** para falhas de download
+- **Barra de progresso** em tempo real
+- **Download específico** por título
+- **Verificação** de novos clipes disponíveis
+- **Configuração flexível** via arquivo YAML
+- **Log detalhado** de todas as operações
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 O projeto utiliza **Arquitetura Hexagonal (Ports and Adapters)** para:
 - ✅ Separação clara de responsabilidades
@@ -22,7 +22,7 @@ O projeto utiliza **Arquitetura Hexagonal (Ports and Adapters)** para:
 - ✅ Flexibilidade para mudanças futuras
 - ✅ Código limpo e manutenível
 
-### 📂 Estrutura do Projeto
+### Estrutura do Projeto
 
 ```
 downloader-music/
@@ -48,7 +48,7 @@ downloader-music/
 └── build/                    # Binários compilados
 ```
 
-## 🚀 Instalação
+## Instalação
 
 ### Pré-requisitos
 
@@ -76,9 +76,9 @@ make install
 go install github.com/sant0x00/downloader-music/cmd@latest
 ```
 
-## 📖 Como Usar
+## Como Usar
 
-### 🎵 Download de Todos os Clipes
+### Download de Todos os Clipes
 
 ```bash
 # Usando make
@@ -88,14 +88,14 @@ make run-download-all
 ./build/downloader-music download all
 ```
 
-### 🎯 Download de Clipe Específico
+### Download de Clipe Específico
 
 ```bash
 # Exemplo
 ./build/downloader-music download title "Vou até o fim"
 ```
 
-### 🔍 Verificar Novos Clipes
+### Verificar Novos Clipes
 
 ```bash
 # Usando make
@@ -105,19 +105,19 @@ make run-check
 ./build/downloader-music check
 ```
 
-### ⚙️ Configurar Diretório de Saída
+### Configurar Diretório de Saída
 
 ```bash
 ./build/downloader-music config output-dir "~/Meus_Videos/ClipesJW"
 ```
 
-### 📋 Ver Ajuda
+### Ver Ajuda
 
 ```bash
 ./build/downloader-music --help
 ```
 
-## ⚙️ Configuração
+## Configuração
 
 O arquivo `configs/config.yaml` permite personalizar:
 
@@ -138,7 +138,7 @@ logging:
   output_file: "downloader.log"
 ```
 
-## 📁 Estrutura de Saída
+## Estrutura de Saída
 
 Os clipes são organizados automaticamente:
 
@@ -157,7 +157,7 @@ Os clipes são organizados automaticamente:
     └── E_tanto_amor.mp4
 ```
 
-## 🔧 Desenvolvimento
+## Desenvolvimento
 
 ### Comandos Make Disponíveis
 
@@ -184,7 +184,7 @@ logging:
 ./build/downloader-music download all --verbose
 ```
 
-## 🧪 Testes
+## Testes
 
 ```bash
 # Executar todos os testes
@@ -194,21 +194,21 @@ make test
 go test ./internal/domain/...
 ```
 
-## 📊 Performance
+## Performance
 
 - **Downloads concorrentes**: 8 workers por padrão
 - **Retry automático**: 3 tentativas com backoff progressivo
 - **Rate limiting**: 1 segundo entre requisições de scraping
 - **Timeout**: 30 segundos por download
 
-## 🔒 Considerações Legais
+## Considerações Legais
 
 ⚠️ **IMPORTANTE**: Esta aplicação deve ser usada apenas para:
 - ✅ Fins pessoais e educacionais
 - ✅ Respeitando os termos de uso do site jw.org
 - ✅ Não sobrecarregar os servidores (rate limiting implementado)
 
-## 🐛 Solução de Problemas
+## Solução de Problemas
 
 ### Erro de Conexão
 ```bash
@@ -227,7 +227,7 @@ ls -la ~/Downloads/
 - Verificar configuração de timeout
 - Aumentar retry_attempts na configuração
 
-## 📝 Log
+## Log
 
 Os logs são salvos em `downloader.log` por padrão:
 
@@ -239,7 +239,7 @@ tail -f downloader.log
 grep ERROR downloader.log
 ```
 
-## 🔄 Atualizações
+## Atualizações
 
 ```bash
 # Atualizar código
@@ -250,7 +250,7 @@ make clean
 make build
 ```
 
-## 📞 Suporte
+## Suporte
 
 Se encontrar problemas:
 
@@ -259,10 +259,8 @@ Se encontrar problemas:
 3. Verificar configurações em `configs/config.yaml`
 4. Criar uma issue no repositório
 
-## 📄 Licença
+## Licença
 
 Este projeto é fornecido "como está" para fins educacionais e pessoais. 
 
 ---
-
-**Desenvolvido com ❤️ em Go** | **Arquitetura Hexagonal** | **Downloads Inteligentes**
