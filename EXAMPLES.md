@@ -219,4 +219,4 @@ tail -20 downloader.log
 
 ---
 
-*** Dica**: Comece sempre com `./build/downloader-music check` para ver quantos clipes estão disponíveis!
+**Dica**: Comece sempre com `./build/downloader-music check` para ver quantos clipes estão disponíveis!
